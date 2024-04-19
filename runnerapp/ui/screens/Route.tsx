@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Card, FAB, Text } from 'react-native-paper';
-import RouteDetails from './RouteDetails';
+import RouteCreate from './RouteCreate';
 
 export default function RouteScreen({ navigation }: any) {
 
@@ -11,7 +11,7 @@ export default function RouteScreen({ navigation }: any) {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Overview" component={RouteTabs} />
-            <Stack.Screen name="Details" component={RouteDetails} />
+            <Stack.Screen name="Details" component={RouteCreate} />
         </Stack.Navigator>
     );
 };
@@ -27,6 +27,15 @@ function RouteTabs() {
 }
 
 function DistanceRoutes({navigation}: any) {
+    const [routes, setRoutes] = React.useState([]);
+
+    React.useEffect(() => {
+        // fetch('http://localhost:3000/routes')
+        //     .then((response) => response.json())
+        //     .then((json) => setRoutes(json))
+        //     .catch((error) => console.error(error))
+    }, []);
+
     return (
         <View>
             <ScrollView style={styles.container}>
@@ -42,12 +51,23 @@ function DistanceRoutes({navigation}: any) {
                 )
                 )}
             </ScrollView>
-            <FAB icon="plus" style={styles.fab} onPress={() => navigation.navigate('Details')} />
+            <FAB icon="plus" style={styles.fab} onPress={() => navigation.navigate('Details', {
+                typeDistance: true
+            })} />
         </View>
     );
 }
 
-function TimeRoutes() {
+function TimeRoutes({navigation}: any) {
+    const [routes, setRoutes] = React.useState([]);
+
+    React.useEffect(() => {
+        // fetch('http://localhost:3000/routes')
+        //     .then((response) => response.json())
+        //     .then((json) => setRoutes(json))
+        //     .catch((error) => console.error(error))
+    }, []);
+
     return (
         <View>
 
@@ -66,7 +86,9 @@ function TimeRoutes() {
                 )}
 
             </ScrollView>
-            <FAB icon="plus" style={styles.fab} onPress={() => console.log('Pressed')} />
+            <FAB icon="plus" style={styles.fab} onPress={() => navigation.navigate('Details', {
+                    typeDistance: false,
+            })} />
         </View>
     );
 }
