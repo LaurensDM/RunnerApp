@@ -5,12 +5,10 @@
  * @format
  */
 
+import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import {
-  SafeAreaView,
-  StatusBar,
   useColorScheme,
 } from 'react-native';
 
@@ -19,6 +17,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import Home from './ui/screens/Home';
 import SettingsScreen from './ui/screens/Settings';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import RouteScreen from './ui/screens/Route';
 
 
 
@@ -30,14 +30,16 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const Stack = createNativeStackNavigator();
+
+  const Drawer = createDrawerNavigator()
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName='Home'>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Settings" component={SettingsScreen} />
-        </Stack.Navigator>
+        <Drawer.Navigator initialRouteName='Home'>
+          <Drawer.Screen name="Home" component={Home} />
+          <Drawer.Screen name="Route" component={RouteScreen} />
+          <Drawer.Screen name="Settings" component={SettingsScreen} />
+        </Drawer.Navigator>
     </NavigationContainer>
   );
 }
