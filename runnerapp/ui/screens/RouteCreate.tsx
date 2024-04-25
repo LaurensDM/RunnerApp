@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Checkbox, Divider, List, TextInput } from 'react-native-paper';
-import Advanced from '../components/Advanced';
 import { Accordion } from 'react-native-paper/lib/typescript/components/List/List';
+import { SurfaceTypes } from '../../misc/poiTypes';
+import { AdvancedOptions, DestinationOptions } from '../../misc/types';
+import Advanced from '../components/Advanced';
 
 const RouteCreate = ({ route }: any) => {
     const [name, setName] = useState('');
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
-    const [customDestinations, setCustomDestinations] = useState(false);
+    const [enableCustomDestinations, setEnableCustomDestinations] = useState(false);
+    const [customDestinations, setCustomDestinations] = useState<DestinationOptions>({});
+    const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptions>({});
 
     const { typeDistance } = route.params;
 
@@ -25,9 +29,18 @@ const RouteCreate = ({ route }: any) => {
         setDuration(text);
     };
 
+    const handleCustomDestinationsChange = (options: DestinationOptions) => {
+        setCustomDestinations(options);
+    }
+
+    const handleAdvancedChange = (options: AdvancedOptions) => {
+        setAdvancedOptions(options);
+    }
+
     const handleSubmit = () => {
         // Handle form submission here
-        console.log(' OK');
+        console.log(enableCustomDestinations ? customDestinations : "No custom destinations");
+        console.log(advancedOptions);
 
     };
 
@@ -39,12 +52,13 @@ const RouteCreate = ({ route }: any) => {
                 onChangeText={handleNameChange}
                 placeholder="Enter name"
             />
-            <Text style={styles.label}>Add custom destionations</Text>
-            <Checkbox status={customDestinations ? "checked" : "unchecked"} onPress={() => setCustomDestinations(!customDestinations)} />
-            {customDestinations ? (
-                <CustomDestinations />
+            <Divider />
+            <Text style={styles.label}>Add custom destinations</Text>
+            <Checkbox status={enableCustomDestinations ? "checked" : "unchecked"} onPress={() => setEnableCustomDestinations(!enableCustomDestinations)} />
+            {enableCustomDestinations ? (
+                <CustomDestinations handleCustomDestinationsChange={handleCustomDestinationsChange} customDestinations={customDestinations}/>
             ) : null}
-
+            <Divider />
             {typeDistance ? (
                 <View>
                     <Text style={styles.label}>Distance:</Text>
@@ -66,16 +80,11 @@ const RouteCreate = ({ route }: any) => {
                     /></View>
             )
             }
-
+            <Divider />
             <List.Accordion
                 title="Advanced">
-                <Advanced />
+                <Advanced handleAdvancedChange={handleAdvancedChange} advancedOptions={advancedOptions}/>
             </List.Accordion>
-
-
-
-
-
             <Button onPress={handleSubmit} mode='contained'>
                 Submit
             </Button>
@@ -83,21 +92,37 @@ const RouteCreate = ({ route }: any) => {
     );
 };
 
-function CustomDestinations() {
-    const [destionations, setDestionations] = useState([] as string[]);
-    const [end, setEnd] = useState('' as string);
-    const [start, setStart] = useState('' as string);
+type CustomDestinationsProps = {
+    handleCustomDestinationsChange: (options: DestinationOptions) => void;
+    customDestinations?: DestinationOptions;
+};
 
+function CustomDestinations({ handleCustomDestinationsChange, customDestinations }: CustomDestinationsProps) {
+    const [destionations, setDestionations] = useState(customDestinations?.destinations || [] as string[]);
+    const [end, setEnd] = useState(customDestinations?.end || '' as string);
+    const [start, setStart] = useState(customDestinations?.start || '' as string);
+
+    const onStartChange = (text: string) => {
+        setStart(text);
+        handleCustomDestinationsChange({ start: text, end, destinations: destionations });
+    };
+
+    const onEndChange = (text: string) => {
+        setEnd(text);
+        handleCustomDestinationsChange({ start, end: text, destinations: destionations });
+    };
 
 
     const handleAddDestination = () => {
         setDestionations([...destionations, '']);
+        handleCustomDestinationsChange({ start, end, destinations: destionations });
     };
 
     const handleDestinationChange = (text: string, index: number) => {
         const newDestinations = [...destionations];
         newDestinations[index] = text;
         setDestionations(newDestinations);
+        handleCustomDestinationsChange({ start, end, destinations: newDestinations });
     }
     return (
         <View style={styles.container}>
@@ -105,14 +130,14 @@ function CustomDestinations() {
             <TextInput
                 style={styles.input}
                 value={start}
-                onChangeText={setStart}
+                onChangeText={onStartChange}
                 placeholder="Enter destination"
             />
             <Text style={styles.label}>End</Text>
             <TextInput
                 style={styles.input}
                 value={end}
-                onChangeText={setEnd}
+                onChangeText={onEndChange}
                 placeholder="Enter destination"
             />
             {destionations.map((destination, index) => (
@@ -152,5 +177,6 @@ const styles = {
         marginBottom: 16,
     },
 };
+
 
 export default RouteCreate;
