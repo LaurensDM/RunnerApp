@@ -1,2 +1,2 @@
 # RunnerApp
-App that generates route for runners
+App that generates routes for runners
