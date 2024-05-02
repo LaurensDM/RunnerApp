@@ -6,6 +6,7 @@ import { Accordion } from 'react-native-paper/lib/typescript/components/List/Lis
 import { SurfaceTypes } from '../../misc/poiTypes';
 import { AdvancedOptions, DestinationOptions } from '../../misc/types';
 import Advanced from '../components/Advanced';
+import useRoute from '../../data/api/route';
 
 const RouteCreate = ({ route }: any) => {
     const [name, setName] = useState('');
@@ -14,6 +15,7 @@ const RouteCreate = ({ route }: any) => {
     const [enableCustomDestinations, setEnableCustomDestinations] = useState(false);
     const [customDestinations, setCustomDestinations] = useState<DestinationOptions>({});
     const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptions>({});
+    const {createRoute} = useRoute();
 
     const { typeDistance } = route.params;
 
@@ -37,10 +39,15 @@ const RouteCreate = ({ route }: any) => {
         setAdvancedOptions(options);
     }
 
-    const handleSubmit = () => {
-        // Handle form submission here
-        console.log(enableCustomDestinations ? customDestinations : "No custom destinations");
-        console.log(advancedOptions);
+    const handleSubmit = async () => {
+        const route = {
+            name,
+            distance: Number(distance),
+            advancedOptions,
+            customDestinations,
+        };
+        console.log(route);
+        const response = await createRoute(route);
 
     };
 

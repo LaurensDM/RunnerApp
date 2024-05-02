@@ -4,6 +4,8 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Card, FAB, Text } from 'react-native-paper';
 import RouteCreate from './RouteCreate';
+import useRoute  from '../../data/api/route';
+import { useAuth0 } from 'react-native-auth0';
 
 export default function RouteScreen({ navigation }: any) {
 
@@ -28,6 +30,8 @@ function RouteTabs() {
 
 function DistanceRoutes({navigation}: any) {
     const [routes, setRoutes] = React.useState([]);
+    const { getRoute } = useRoute();
+    const { getCredentials } = useAuth0();
 
     React.useEffect(() => {
         // fetch('http://localhost:3000/routes')
@@ -36,6 +40,12 @@ function DistanceRoutes({navigation}: any) {
         //     .catch((error) => console.error(error))
     }, []);
 
+    const handleClick = async () => {
+        console.log('click');
+        const credentials = await getCredentials();
+        const data = await getRoute(credentials!);
+        console.log(data.data);
+    }
     return (
         <View>
             <ScrollView style={styles.container}>
@@ -44,7 +54,7 @@ function DistanceRoutes({navigation}: any) {
                         <Card.Cover source={{ uri: card.image }} />
                         <Card.Title title={card.title} subtitle={card.subtitle} />
                         <Card.Actions>
-                            <Button >Ok</Button>
+                            <Button onPress={handleClick}>Ok</Button>
                             <Button>Cancel</Button>
                         </Card.Actions>
                     </Card>

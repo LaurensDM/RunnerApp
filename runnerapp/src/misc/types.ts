@@ -27,3 +27,10 @@ export type PoiType = {
     category: string;
     type: string;
 }
+
+export type CreateRoute = {
+    name: string;
+    distance: number;
+    advancedOptions: AdvancedOptions;
+    customDestinations: DestinationOptions;
+};

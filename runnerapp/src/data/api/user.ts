@@ -11,8 +11,11 @@ const API_ENDPOINTS = {
     deleteUser: '/users/{id}',
 };
 
+
+
 // Define your API functions
 export const getUsers = async (): Promise<AxiosResponse> => {
+    
     try {
         const response = await axios.get(`${BASE_URL}${API_ENDPOINTS.getUsers}`);
         return response;

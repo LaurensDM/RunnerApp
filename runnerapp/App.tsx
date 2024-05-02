@@ -15,11 +15,14 @@ import { useAuth0 } from 'react-native-auth0';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import LoginButton from './src/ui/components/auth/LoginButton';
 import Error from './src/ui/screens/Error';
+import { Header } from 'react-native/Libraries/NewAppScreen';
 
 function App(): React.JSX.Element {
   return (
     <AuthProvider >
-      <Main />
+      <NavigationContainer>
+        <Main />
+      </NavigationContainer>
     </AuthProvider>
   );
 }
@@ -45,24 +48,23 @@ function Main(): React.JSX.Element {
 
   const Drawer = createDrawerNavigator()
   return (
-    <View>
-      {loggedIn ?
-        <NavigationContainer>
-          <Drawer.Navigator initialRouteName='Home'>
-            <Drawer.Screen name="Home" component={Home} />
-            <Drawer.Screen name="Route" component={RouteScreen} />
-            <Drawer.Screen name="Settings" component={SettingsScreen} />
-          </Drawer.Navigator>
-        </NavigationContainer> :
-        <MainLoggedOut />}
-    </View>
+
+      loggedIn ?
+        <Drawer.Navigator initialRouteName='Home'>
+          <Drawer.Screen name="Home" component={Home} />
+          <Drawer.Screen name="Route" component={RouteScreen} />
+          <Drawer.Screen name="Settings" component={SettingsScreen} />
+        </Drawer.Navigator>
+        :
+        <MainLoggedOut />
   )
 }
 
 function MainLoggedOut(): React.JSX.Element {
   return (
-    <View  style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ textAlign: 'center' }}>Please login</Text>
+    <View >
+      <Header />
+      <Text style={{ textAlign: 'center', color: 'black' }}>Please login</Text>
       <LoginButton />
     </View>
   );
