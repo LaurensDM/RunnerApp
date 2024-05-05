@@ -12,7 +12,7 @@ type AdvancedProps = {
 
 
 const Advanced = ({handleAdvancedChange, advancedOptions}: AdvancedProps) => {
-    const [height, setHeight] = React.useState(advancedOptions.height ? advancedOptions.height : "");
+    const [height, setHeight] = React.useState<string>(advancedOptions.height ? advancedOptions.height : "flat");
     const [surfaceType, setSurfaceType] = React.useState<SurfaceTypes | undefined>(advancedOptions.surfaceType ? advancedOptions.surfaceType : undefined);
     const [poiTypeList, setPoiTypeList] = React.useState<PoiType[]>(advancedOptions.poiTypeList ? advancedOptions.poiTypeList : []);
     const [isExpanded, setIsExpanded] = React.useState(false);

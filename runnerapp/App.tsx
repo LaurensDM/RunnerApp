@@ -44,7 +44,7 @@ function Main(): React.JSX.Element {
     );
   }
 
-  const loggedIn = user !== undefined && user !== null;
+  const loggedIn = true;
 
   const Drawer = createDrawerNavigator()
   return (

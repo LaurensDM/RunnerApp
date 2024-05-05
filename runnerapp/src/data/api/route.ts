@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useCallback, useMemo } from 'react';
 import { Credentials } from 'react-native-auth0';
-import { CreateRoute } from '../../misc/types';
+import { AdvancedType, CreateRoute, RouteProps } from '../../misc/types';
 import GetLocation from 'react-native-get-location';
 
 // Define the base URL for your API
@@ -37,23 +37,48 @@ const getRoute = useCallback(async (auth0Token: Credentials): Promise<AxiosRespo
 }, []);
 
 const createRoute = useCallback(async ( route: CreateRoute, auth0Token?: Credentials): Promise<AxiosResponse> => {
-    let location = undefined
+    const  location = await GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 60000,
+    });
 
-    if (!route.customDestinations || !route.customDestinations.start) {
-        location = await GetLocation.getCurrentPosition({
-            enableHighAccuracy: true,
-            timeout: 60000,
-        })
-    } else {
-        location = route.customDestinations.start
-    }
+    // if (!route.customDestinations || !route.customDestinations.start) {
+       
+    // } else {
+    //     location = route.customDestinations.start
+    // }
     
     if (location === undefined) {
         throw new Error("Could not get location");
         
     }
+
+    console.log(location);
+    
+    const advanced: AdvancedType = {
+        height: route.advancedOptions.height,
+        surfaceType: `surface=${route.advancedOptions.surfaceType}`,
+        poiTypes: route.advancedOptions.poiTypeList?.map((el) => `${el.category}=${el.type}`),
+    }
+
+    const body: RouteProps = {
+        startPoint: {lat: 51.028751 ,lng: 3.722194},
+        endPoint: {lat: 51.028751 ,lng: 3.722194},
+        waypoints: [],
+        distance: route.distance,
+        advancedOptions: {
+            height: route.advancedOptions.height,
+            surfaceType: route.advancedOptions.surfaceType,
+            poiTypes: advanced.poiTypes,
+        
+        },
+    }
+
+    console.log(body);
+    
+
     try {
-        const response = await axios.post(`http://10.0.2.2:5000/api${API_ENDPOINTS.getRoute}`, route, {
+        const response = await axios.post(`http://10.0.2.2:5000/api${API_ENDPOINTS.getRoute}`, body, {
             // headers: {
             //     Authorization: `Bearer ${auth0Token.idToken}`,
             // },

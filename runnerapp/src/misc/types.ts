@@ -9,7 +9,7 @@ export type PoiTypes = {
 };
 
 export type AdvancedOptions = {
-    height?: string;
+    height: string;
     surfaceType?: SurfaceTypes;
     // isSwitchOn?: boolean;
     poiTypeList?: PoiType[];
@@ -31,6 +31,26 @@ export type PoiType = {
 export type CreateRoute = {
     name: string;
     distance: number;
-    advancedOptions: AdvancedOptions;
+    advancedOptions: AdvancedType;
     customDestinations: DestinationOptions;
+};
+
+type Waypoint = {
+    lat: number;
+    lng: number;
+};
+
+export type AdvancedType = {
+    poiTypes?: string[];
+    surfaceType?: string;
+    height: string,
+};
+
+export type RouteProps = {
+    startPoint: Waypoint;
+    endPoint: Waypoint;
+    waypoints: Waypoint[];
+    distance?: number;
+    time?: number;
+    advancedOptions: AdvancedType;
 };

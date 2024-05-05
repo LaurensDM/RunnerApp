@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Checkbox, Divider, List, TextInput } from 'react-native-paper';
 import { Accordion } from 'react-native-paper/lib/typescript/components/List/List';
 import { SurfaceTypes } from '../../misc/poiTypes';
-import { AdvancedOptions, DestinationOptions } from '../../misc/types';
+import { AdvancedOptions, CreateRoute, DestinationOptions } from '../../misc/types';
 import Advanced from '../components/Advanced';
 import useRoute from '../../data/api/route';
 
@@ -14,7 +14,7 @@ const RouteCreate = ({ route }: any) => {
     const [duration, setDuration] = useState('');
     const [enableCustomDestinations, setEnableCustomDestinations] = useState(false);
     const [customDestinations, setCustomDestinations] = useState<DestinationOptions>({});
-    const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptions>({});
+    const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptions>({height: 'flat'});
     const {createRoute} = useRoute();
 
     const { typeDistance } = route.params;
@@ -40,15 +40,16 @@ const RouteCreate = ({ route }: any) => {
     }
 
     const handleSubmit = async () => {
-        const route = {
+        const route: CreateRoute = {
             name,
             distance: Number(distance),
-            advancedOptions,
+            advancedOptions: advancedOptions,
             customDestinations,
         };
         console.log(route);
         const response = await createRoute(route);
-
+        console.log(response);
+        
     };
 
     return (

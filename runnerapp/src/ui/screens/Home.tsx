@@ -10,11 +10,10 @@ export default function Home({navigation}: HomeProps) {
         <ScrollView
             contentInsetAdjustmentBehavior="automatic"
         >
-            <Header />
             <View>
-                <Section title="Step One">
-                    Edit <Text>App.tsx</Text> to change this
-                    screen and then come back to see your edits.
+                <Section title="Welcome">
+                    Go to the Routes tab to see your routes. 
+                    You can create a new route by clicking the + button.
                 </Section>
             </View>
         </ScrollView>
