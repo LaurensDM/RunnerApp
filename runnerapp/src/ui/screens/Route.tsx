@@ -6,6 +6,7 @@ import { Button, Card, FAB, Text } from 'react-native-paper';
 import RouteCreate from './RouteCreate';
 import useRoute  from '../../data/api/route';
 import { useAuth0 } from 'react-native-auth0';
+import RouteMap from './RouteMap';
 
 export default function RouteScreen({ navigation }: any) {
 
@@ -14,6 +15,7 @@ export default function RouteScreen({ navigation }: any) {
         <Stack.Navigator>
             <Stack.Screen name="Overview" component={RouteTabs} />
             <Stack.Screen name="Details" component={RouteCreate} />
+            <Stack.Screen name="Map" component={RouteMap} />
         </Stack.Navigator>
     );
 };

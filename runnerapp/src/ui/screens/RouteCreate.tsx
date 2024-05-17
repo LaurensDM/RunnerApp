@@ -8,7 +8,7 @@ import { AdvancedOptions, CreateRoute, DestinationOptions } from '../../misc/typ
 import Advanced from '../components/Advanced';
 import useRoute from '../../data/api/route';
 
-const RouteCreate = ({ route }: any) => {
+const RouteCreate = ({ route, navigation }: any) => {
     const [name, setName] = useState('');
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
@@ -50,6 +50,7 @@ const RouteCreate = ({ route }: any) => {
         const response = await createRoute(route);
         console.log(response);
         
+        navigation.navigate('Map');
     };
 
     return (
