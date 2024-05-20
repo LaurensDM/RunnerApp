@@ -17,9 +17,9 @@ export type AdvancedOptions = {
 };
 
 export type DestinationOptions = {
-    start?: string;
-    end?: string;
-    destinations?: string[];
+    start?: Waypoint;
+    end?: Waypoint;
+    destinations?: Waypoint[];
 };
 
 
@@ -31,11 +31,11 @@ export type PoiType = {
 export type CreateRoute = {
     name: string;
     distance: number;
-    advancedOptions: AdvancedType;
+    advancedOptions: AdvancedOptions;
     customDestinations: DestinationOptions;
 };
 
-type Waypoint = {
+export type Waypoint = {
     lat: number;
     lng: number;
 };

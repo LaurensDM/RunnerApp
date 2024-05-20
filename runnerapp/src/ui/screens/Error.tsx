@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
+import LoginButton from '../components/auth/LoginButton';
 
 interface ErrorProps {
     message: string;
@@ -15,6 +16,7 @@ const Error: React.FC<ErrorProps> = ({ message }) => {
                     <Paragraph>{message}</Paragraph>
                 </Card.Content>
             </Card>
+            <LoginButton />
         </View>
     );
 };
