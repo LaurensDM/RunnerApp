@@ -14,11 +14,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const RouteCreate = ({ route, navigation }: any) => {
     const { typeDistance, offlineRoute } = route.params;
     const [name, setName] = useState(offlineRoute?.name || '');
-    const [distance, setDistance] = useState<string>(String(offlineRoute?.distance) || '0');
-    const [duration, setDuration] = useState<string>(String(offlineRoute?.duration )|| '0');
+    const [distance, setDistance] = useState<string>(String(offlineRoute?.distance || 0) || '0');
+    const [duration, setDuration] = useState<string>(String(offlineRoute?.duration || 0)|| '0');
     const [enableCustomDestinations, setEnableCustomDestinations] = useState(false);
     const [customDestinations, setCustomDestinations] = useState<DestinationOptions>({});
-    const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptions>(offlineRoute.advancedOptions || {} as AdvancedOptions);
+    const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptions>(offlineRoute?.advancedOptions || {} as AdvancedOptions);
     const [isLoading, setIsLoading] = useState(false);
     const { createRoute } = useRoute();
 

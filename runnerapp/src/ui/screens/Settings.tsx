@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { View, Text, Switch, StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import { Button, Divider } from 'react-native-paper';
+import { Button, Divider, TextInput } from 'react-native-paper';
 
 export default function SettingsScreen() {
     const [notificationsEnabled, setNotificationsEnabled] = React.useState(false);
@@ -47,15 +46,13 @@ export default function SettingsScreen() {
             <Divider />
             <View style={styles.setting}>
                 <Text style={styles.settingText}>Speed</Text>
-                <TextInput placeholder="Enter your speed" onChangeText={handleChange} style={{   
-                    height: 40,
-                    borderColor: 'purple',
-                    borderWidth: 1,
-                    width: 100,
-                    borderRadius: 5,
-                    padding: 5,
-                    textAlign: 'center',
-                }} value={speed} keyboardType='numeric'/>
+                <TextInput 
+                placeholder="Enter your speed" 
+                onChangeText={handleChange} 
+                value={speed}
+                keyboardType='numeric'
+                right={<TextInput.Affix text="km/h" />}
+                />
                 <Button onPress={handleSave} >Save</Button>
             </View>
         </View>
@@ -66,6 +63,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
+        gap: 16,
     },
     title: {
         fontSize: 24,
